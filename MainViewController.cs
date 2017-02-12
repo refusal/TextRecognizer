@@ -11,6 +11,8 @@ namespace TextRecognizer
 	{
 		private string _pathToDatabase;
 		int[,] currentMatrix;
+		Neuron neuron;
+
 		public MainViewController(string nibName, NSBundle bundle) : base(nibName, bundle)
 		{
 		}
@@ -30,7 +32,14 @@ namespace TextRecognizer
 		{
 			var documents = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 			_pathToDatabase = Path.Combine(documents, "db_sqlite-net.db");
+
 			currentMatrix = new int[,] { };
+
+			using (var conn = new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				//conn.DropTable<LetterPattern>();
+				conn.CreateTable<LetterPattern>();
+			}
 		}
 
 		private void InitViewObjects()
@@ -50,29 +59,70 @@ namespace TextRecognizer
 			LearnButton.Layer.CornerRadius = 10;
 			LearnButton.Layer.BorderWidth = 1;
 			LearnButton.Layer.BorderColor = UIColor.FromRGB(110, 120, 235).CGColor;
+			LearnButton.Hidden = true;
 		}
 
 		partial void ClearButtonClick(Foundation.NSObject sender)
 		{
 			DrawHolder.Path = new CGPath();
+			DrawHolder.AllPoints = new List<CGPoint>();
 			DrawHolder.CurrentPoint = new CGPoint();
 			DrawHolder.SetNeedsDisplay();
 		}
 
 		partial void LearnButtonClick(Foundation.NSObject sender)
 		{
-			var letter = new LetterPattern {};
-			var a=ConvertArrayToString(currentMatrix);
-			ConvertStringToArray(a,10);
-			//using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
-			//{
-			//	//db.Insert(person);
-			//}
+			LearnButton.Hidden = true;
+			LetterPattern letter;
+
+			using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				letter = db.Get<LetterPattern>(p => p.ID == "L");
+			}
+
+			var matrix = ConvertStringToArray(letter.Pattern, 60);
+
+			for (int i = 0; i < matrix.GetLength(0); i++)
+			{
+				for (int a = 0; a < matrix.GetLength(1); a++)
+				{
+					if (currentMatrix[i, a] == 1 && matrix[i, a] < 50)
+					{
+						matrix[i, a]++;
+					}
+					else if(matrix[i, a] > -50)
+					{
+						matrix[i, a]--;
+					}
+
+				}
+			}
+
+			using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				db.Update(new LetterPattern() { ID = "L", Pattern = ConvertArrayToString(matrix) });
+			}
 		}
 
 		partial void RecognizeButtonClick(Foundation.NSObject sender)
 		{
-			currentMatrix = SimplifyImage((int)DrawHolder.Frame.Width, (int)DrawHolder.Frame.Height, 60, DrawHolder.AllPoints);
+			currentMatrix = SimplifyImage((int)DrawHolder.Frame.Width, (int)DrawHolder.Frame.Height, 10, DrawHolder.AllPoints);
+			int[,] matrix;
+			using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
+			{
+				//db.Insert(new LetterPattern() { ID = "L", Pattern = ConvertArrayToString(currentMatrix) });
+				LetterPattern letter = db.Get<LetterPattern>(p => p.ID == "L");
+				matrix = ConvertStringToArray(letter.Pattern, 60);
+			}
+
+			neuron = new Neuron(60, 60, currentMatrix);
+			neuron.weight = matrix;
+			neuron.mul_w();
+			neuron.Sum();
+
+			TextLabel.Text = neuron.Rez() ? "L" : "";
+
+			LearnButton.Hidden = false;
 		}
 
 		public override void DidReceiveMemoryWarning()
@@ -103,10 +153,10 @@ namespace TextRecognizer
 
 		private string ConvertArrayToString(int[,] array)
 		{
-			string s="";
+			string s = "";
 			foreach (var item in array)
 			{
-				s += item.ToString();
+				s += item.ToString() + ";";
 			}
 			return s;
 		}
@@ -114,12 +164,13 @@ namespace TextRecognizer
 		private int[,] ConvertStringToArray(string s, int step)
 		{
 			int[,] matrix = new int[step, step];
+			var array = s.Split(';');
 			int index = 0;
 			for (int i = 0; i < step; i++)
 			{
 				for (int a = 0; a < step; a++)
 				{
-					matrix[i, a] = Int32.Parse(s[index].ToString());
+					matrix[i, a] = Int32.Parse(array[index]);
 					index++;
 				}
 			}

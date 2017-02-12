@@ -6,7 +6,7 @@ namespace TextRecognizer
 		public int[,] mul;
 		public int[,] weight;
 		public int[,] input;
-		public int limit = 9;
+		public int limit = 100;
 		public int sum;
 
 		public Neuron(int sizex, int sizey, int[,] inP)
@@ -20,9 +20,9 @@ namespace TextRecognizer
 
 		public void mul_w()
 		{
-			for (int x = 0; x <= 9; x++)
+			for (int x = 0; x <= 59; x++)
 			{
-				for (int y = 0; y <= 9; y++)
+				for (int y = 0; y <= 59; y++)
 				{
 					mul[x, y] = input[x, y] * weight[x, y];
 				}
@@ -32,9 +32,9 @@ namespace TextRecognizer
 		public void Sum()
 		{
 			sum = 0;
-			for (int x = 0; x <= 9; x++)
+			for (int x = 0; x <= 59; x++)
 			{
-				for (int y = 0; y <= 9; y++)
+				for (int y = 0; y <= 59; y++)
 				{
 					sum += mul[x, y];
 				}
@@ -49,9 +49,9 @@ namespace TextRecognizer
 		}
 		public void incW(int[,] inP)
 		{
-			for (int x = 0; x <= 9; x++)
+			for (int x = 0; x <= 59; x++)
 			{
-				for (int y = 0; y <= 9; y++)
+				for (int y = 0; y <= 59; y++)
 				{
 					weight[x, y] += inP[x, y];
 				}
@@ -59,9 +59,9 @@ namespace TextRecognizer
 		}
 		public void decW(int[,] inP)
 		{
-			for (int x = 0; x <= 9; x++)
+			for (int x = 0; x <= 59; x++)
 			{
-				for (int y = 0; y <= 9; y++)
+				for (int y = 0; y <= 59; y++)
 				{
 					weight[x, y] -= inP[x, y];
 				}
