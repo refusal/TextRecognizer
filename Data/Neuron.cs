@@ -3,70 +3,36 @@ namespace TextRecognizer
 {
 	public class Neuron
 	{
-		public int[,] mul;
-		public int[,] weight;
-		public int[,] input;
+		public int[,] Weight;
 		public int limit = 100;
-		public int sum;
+		public int Sum;
 
-		public Neuron(int sizex, int sizey, int[,] inP)
+		public void SetPattern(int[,] pattern)
 		{
-			weight = new int[sizex, sizey];
-			mul = new int[sizex, sizey];
-
-			input = new int[sizex, sizey];
-			input = inP;
+			Weight = new int[pattern.GetLength(0), pattern.GetLength(1)];
 		}
 
-		public void mul_w()
+		public void Study(int[,] input)
 		{
-			for (int x = 0; x <= 59; x++)
+			for (int i = 0; i < input.GetLength(0); i++)
 			{
-				for (int y = 0; y <= 59; y++)
+				for (int a = 0; a < input.GetLength(1); a++)
 				{
-					mul[x, y] = input[x, y] * weight[x, y];
+					Weight[i, a] += input[i, a];
 				}
 			}
 		}
 
-		public void Sum()
+		public void Recognize(int[,] input)
 		{
-			sum = 0;
-			for (int x = 0; x <= 59; x++)
+			Sum = 0;
+			for (int i = 0; i < input.GetLength(0); i++)
 			{
-				for (int y = 0; y <= 59; y++)
+				for (int a = 0; a < input.GetLength(1); a++)
 				{
-					sum += mul[x, y];
+					Sum += input[i, a] * Weight[i, a];
 				}
 			}
 		}
-
-		public bool Rez()
-		{
-			if (sum >= limit)
-				return true;
-			else return false;
-		}
-		public void incW(int[,] inP)
-		{
-			for (int x = 0; x <= 59; x++)
-			{
-				for (int y = 0; y <= 59; y++)
-				{
-					weight[x, y] += inP[x, y];
-				}
-			}
-		}
-		public void decW(int[,] inP)
-		{
-			for (int x = 0; x <= 59; x++)
-			{
-				for (int y = 0; y <= 59; y++)
-				{
-					weight[x, y] -= inP[x, y];
-				}
-			}
-		}
-
 	}
 }

@@ -13,6 +13,21 @@ namespace TextRecognizer
 		int[,] currentMatrix;
 		Neuron neuron;
 
+		public static LetterPattern[] Letters = new LetterPattern[] {
+			new LetterPattern() { ID="A", Neuron=new Neuron()},
+			new LetterPattern() { ID="B", Neuron=new Neuron()},
+			new LetterPattern() { ID="C", Neuron=new Neuron()},
+			new LetterPattern() { ID="D", Neuron=new Neuron()},
+			new LetterPattern() { ID="F", Neuron=new Neuron()},
+			new LetterPattern() { ID="G", Neuron=new Neuron()},
+			new LetterPattern() { ID="H", Neuron=new Neuron()},
+			new LetterPattern() { ID="I", Neuron=new Neuron()},
+			new LetterPattern() { ID="G", Neuron=new Neuron()},
+			new LetterPattern() { ID="K", Neuron=new Neuron()},
+			new LetterPattern() { ID="L", Neuron=new Neuron()}
+		};
+
+
 		public MainViewController(string nibName, NSBundle bundle) : base(nibName, bundle)
 		{
 		}
@@ -77,7 +92,7 @@ namespace TextRecognizer
 
 			using (var db = new SQLite.SQLiteConnection(_pathToDatabase))
 			{
-				letter = db.Get<LetterPattern>(p => p.ID == "L");
+				letter = db.Get<LetterPattern>(p => p.ID == StudingLetterTextField.Text[0].ToString());
 			}
 
 			var matrix = ConvertStringToArray(letter.Pattern, 60);
@@ -112,15 +127,12 @@ namespace TextRecognizer
 			{
 				//db.Insert(new LetterPattern() { ID = "L", Pattern = ConvertArrayToString(currentMatrix) });
 				LetterPattern letter = db.Get<LetterPattern>(p => p.ID == "L");
+				var a=db.Table<LetterPattern>();
 				matrix = ConvertStringToArray(letter.Pattern, 60);
 			}
 
-			neuron = new Neuron(60, 60, currentMatrix);
-			neuron.weight = matrix;
-			neuron.mul_w();
-			neuron.Sum();
 
-			TextLabel.Text = neuron.Rez() ? "L" : "";
+
 
 			LearnButton.Hidden = false;
 		}

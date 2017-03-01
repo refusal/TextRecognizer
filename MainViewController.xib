@@ -17,6 +17,7 @@
                 <outlet property="LabelHolder" destination="ZGK-CB-0Pv" id="VKm-TT-FRv"/>
                 <outlet property="LearnButton" destination="jh6-Hx-Bv1" id="cNa-IX-UNp"/>
                 <outlet property="RecognizeButton" destination="oai-1v-9wq" id="Kf7-IH-Ja0"/>
+                <outlet property="StudingLetterTextField" destination="nMg-6l-N6x" id="xuB-OV-7sk"/>
                 <outlet property="TextLabel" destination="3YX-iD-4gW" id="2mI-lb-Zci"/>
                 <outlet property="view" destination="2" id="CYd-jZ-hTY"/>
             </connections>
@@ -94,6 +95,12 @@
                         <action selector="ClearButtonClick:" destination="-1" eventType="touchUpInside" id="Atb-ol-dvx"/>
                     </connections>
                 </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nMg-6l-N6x">
+                    <rect key="frame" x="84" y="911" width="150" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" red="0.92156862750000001" green="0.93333333330000001" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -101,15 +108,18 @@
                 <constraint firstItem="ZGK-CB-0Pv" firstAttribute="baseline" secondItem="vWp-tN-Klb" secondAttribute="baseline" multiplier="1.5" id="EfB-hi-XLz"/>
                 <constraint firstItem="yVJ-2N-l7L" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="IFn-zA-usY"/>
                 <constraint firstItem="vWp-tN-Klb" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="M2g-kb-w4Z"/>
+                <constraint firstItem="nMg-6l-N6x" firstAttribute="top" secondItem="jh6-Hx-Bv1" secondAttribute="bottom" constant="25" id="OCc-Lp-6eJ"/>
                 <constraint firstItem="ZGK-CB-0Pv" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="Qao-Ce-flP"/>
                 <constraint firstItem="oai-1v-9wq" firstAttribute="top" secondItem="yVJ-2N-l7L" secondAttribute="bottom" constant="24" id="SPQ-ao-Zgu"/>
                 <constraint firstItem="jh6-Hx-Bv1" firstAttribute="centerY" secondItem="oai-1v-9wq" secondAttribute="centerY" id="VKQ-hV-6se"/>
                 <constraint firstItem="oai-1v-9wq" firstAttribute="height" secondItem="jh6-Hx-Bv1" secondAttribute="height" id="dSs-Ip-AHp"/>
                 <constraint firstItem="yVJ-2N-l7L" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="fIK-fa-u0X"/>
                 <constraint firstItem="vWp-tN-Klb" firstAttribute="width" secondItem="2" secondAttribute="width" id="fnY-0M-uKI"/>
+                <constraint firstItem="nMg-6l-N6x" firstAttribute="trailing" secondItem="jh6-Hx-Bv1" secondAttribute="trailing" id="gdX-iL-gv4"/>
                 <constraint firstItem="oai-1v-9wq" firstAttribute="width" secondItem="jh6-Hx-Bv1" secondAttribute="width" id="guE-b0-Czw"/>
                 <constraint firstItem="unf-gK-n2m" firstAttribute="leading" secondItem="yVJ-2N-l7L" secondAttribute="leading" id="kbm-Qj-RXK"/>
                 <constraint firstItem="yVJ-2N-l7L" firstAttribute="top" secondItem="unf-gK-n2m" secondAttribute="bottom" constant="8" id="lZP-tt-ONF"/>
+                <constraint firstItem="nMg-6l-N6x" firstAttribute="leading" secondItem="jh6-Hx-Bv1" secondAttribute="leading" id="sMb-ea-N4U"/>
                 <constraint firstItem="oai-1v-9wq" firstAttribute="trailing" secondItem="yVJ-2N-l7L" secondAttribute="trailing" id="w11-AF-xF5"/>
                 <constraint firstItem="jh6-Hx-Bv1" firstAttribute="leading" secondItem="yVJ-2N-l7L" secondAttribute="leading" id="yUZ-TG-QiE"/>
             </constraints>

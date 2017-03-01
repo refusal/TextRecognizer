@@ -25,6 +25,9 @@ namespace TextRecognizer
 		UIKit.UIButton RecognizeButton { get; set; }
 
 		[Outlet]
+		UIKit.UITextField StudingLetterTextField { get; set; }
+
+		[Outlet]
 		UIKit.UILabel TextLabel { get; set; }
 
 		[Action ("ClearButtonClick:")]
@@ -61,6 +64,11 @@ namespace TextRecognizer
 			if (TextLabel != null) {
 				TextLabel.Dispose ();
 				TextLabel = null;
+			}
+
+			if (StudingLetterTextField != null) {
+				StudingLetterTextField.Dispose ();
+				StudingLetterTextField = null;
 			}
 		}
 	}
